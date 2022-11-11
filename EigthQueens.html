@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            margin: 0px;
+            padding: 0px;
+        }
+        body{
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        main{
+            display: flex;
+            flex-wrap: wrap;
+            width: 804px;
+            height: 804px;
+            gap: 0px;
+            border: solid 2px black;
+            /* border: solid; */
+        }
+        div{
+            height: 100px;
+            width: 100px;
+            line-height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: red;
+            font-size: 3em;
+
+        }
+        #h1{
+            border: solid;
+        }
+        header{
+            background-color: #C79945;
+            padding: 20px;
+            font-size: 3em;
+            color: white;
+            width: 100%;
+            text-align: center;
+            position: absolute;
+            top: 0px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Eight Queens Attack
+    </header>
+    <main></main>
+</body>
+<script>
+    function formchess(){
+        let x=0;
+        let y=0;
+        let ruthra=""
+        for (let i = 1; i < 9; i++) {
+            x++;
+            for (let j = 1; j < 9; j++) {
+                y++;
+                document.querySelector("main").innerHTML+=`<div id="x${x}y${y}" class="x${x} y${y}"></div>`;
+                if(x%2==y%2){
+                    document.getElementById(`x${i}y${j}`).style.backgroundColor="white";
+                }else{
+                    document.getElementById(`x${i}y${j}`).style.backgroundColor="black";   
+                }
+            }
+            y=0;
+            document.querySelectorAll("div").forEach((ele)=>{
+                ele.onclick=()=>{
+                    ruthra=ele.id[1]+ele.id[3];
+                    // console.log(ruthra);
+                    for (let i = 1; i < 9; i++) {
+                    x++;
+                    for (let j = 1; j < 9; j++) {
+                        y++;
+                        if(x%2==y%2){
+                            document.getElementById(`x${i}y${j}`).innerHTML="";
+                        }else{
+                            document.getElementById(`x${i}y${j}`).innerHTML="";   
+                        }
+                        }
+                    y=0;
+                    }
+                    let set={};
+                    let allele=['11', '12', '13', '14', '15', '16', '17', '18', '21', '22', '23', '24', '25', '26', '27', '28', '31', '32', '33', '34', '35', '36', '37', '38', '41', '42', '43', '44', '45', '46', '47', '48', '51', '52', '53', '54', '55', '56', '57', '58', '61', '62', '63', '64', '65', '66', '67', '68', '71', '72', '73', '74', '75', '76', '77', '78', '81', '82', '83', '84', '85', '86', '87', '88'];
+                    function placeCheck(x,y){
+                    let posy1=y;
+                    let posy2=y;
+                    let posx1=x;
+                    let posy3=y;
+                    let poss=[];
+                    console.log(set);
+                    for (let index = x; index <=8; index++) {
+                        try {
+                            if (!poss.includes(`${index}${posy1}`)&& allele.includes(`${index}${posy1}`)) {
+                                poss.push(`${index}${posy1}`);   
+                            }
+                            posy1++;
+                        } catch (error) {
+                            
+                        }
+                    }
+                    for (let index = x; index >=1; index--) {
+                        try {
+                            if (!poss.includes(`${index}${posy2}`) && allele.includes(`${index}${posy2}`)) {
+                                poss.push(`${index}${posy2}`);   
+                            }
+                            posy2++;
+                        } catch (error) {
+                            
+                        }
+                    }
+                    for (let index = y; index >=1; index--) {
+                        try {
+                            if (!poss.includes(`${posx1}${index}`) && allele.includes(`${posx1}${index}`)) {
+                                poss.push(`${posx1}${index}`);   
+                            }       
+                            posx1--;
+                        } catch (error) {
+                            
+                        }
+                    }
+                    for (let index = x; index <=8; index++) {
+                        try {
+                            if (!poss.includes(`${index}${posy3}`) && allele.includes(`${index}${posy3}`)) {
+                                poss.push(`${index}${posy3}`);   
+                            }
+                            posy3--;
+                        } catch (error) {
+                            
+                        }
+                    }
+                    for (let i = 1; i <=8; i++) {
+                        if (!poss.includes(`${i}${y}`)) {
+                                poss.push(`${i}${y}`);   
+                            }
+                    }
+                    for (let i = 1; i <=8; i++) {
+                        if (!poss.includes(`${x}${i}`)) {
+                                poss.push(`${x}${i}`);   
+                            }
+                    }
+                    set[`${x}${y}`]=poss;
+
+                }
+                function list(){
+                    let liposs=[];
+                    let keys=Object.keys(set);
+                    for (let i = 0; i < keys.length; i++) {
+                        for (let j = 0; j < set[keys[i]].length; j++) {
+                            if (!liposs.includes(set[keys[i]][j])) {
+                                liposs.push(set[keys[i]][j]);
+                            }
+                        }
+                    }
+                    return (liposs);
+                }
+                let xdos=1;
+                let ydos=1;
+                const xxdosdd=xdos;
+                const yydosdd=ydos;
+                let cnt=0;
+                while (true){
+                    if(xdos>8){
+                        xdos=1;
+                        ydos=1;
+                    }
+                    cnt++;
+                    if (xdos<=8) {
+                        if(!list().includes(`${xdos}${ydos}`)){
+                        placeCheck(xdos,ydos);
+                        xdos++;
+                        ydos=1;
+                        }
+                        else{
+                            ydos++;
+                        }
+                    }
+                    if (list().length>=64) {
+                        let tempvar2=0
+                        let keys=Object.keys(set);
+                        if(Object.keys(set).length==8 && Object.keys(set).includes(ruthra)){
+                            console.log(cnt);
+                            console.log(set);
+                            Object.keys(set).forEach((ele)=>{
+                                document.getElementById(`x${ele[0]}y${ele[1]}`).innerHTML="Q";
+                            })
+                            break
+                        }
+                        for (let i = keys.length-1; i >=0; i--) {
+                            if(keys[i]>(xdos-2)*10){
+                                tempvar2=keys[i]
+                                delete set[keys[i]]
+                            }
+                        }
+                        xdos=Number(String(tempvar2)[0]);
+                        ydos=Number(String(tempvar2)[1])+1
+                    }
+                    if(ydos>8){
+                        let temp3="";
+                        let keys=Object.keys(set);
+                        for (let i = keys.length-1; i >=0; i--) {
+                            if(keys[i]>(xdos-1)*10 &&keys[i]<(xdos)*10 ){
+                                temp3=keys[i]
+                                delete set[keys[i]]
+                            }
+                        }
+                        xdos=String(temp3)[0];
+                        ydos=Number(String(temp3)[1]);
+                        if(ydos==8){
+                            let keys=Object.keys(set);
+                            xdos--;
+                            for (let i = keys.length-1; i >=0; i--) {
+                                if(keys[i]>(xdos)*10){
+                                    delete set[keys[i]]
+                                    ydos=Number(String(keys[i])[1])
+                                }  
+                        }
+                        }
+                        ydos++;
+                    }
+                }
+                }
+            })
+        }
+    }
+
+    formchess();
+</script>
+</html>
